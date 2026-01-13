@@ -12,14 +12,10 @@ export const bashTool = tool({
     command: z.string().describe('The bash command to execute'),
     cwd: z
       .string()
-      .describe(
-        'The working directory for the command. Default is the current directory.'
-      )
-      .default('.'),
+      .describe('The working directory for the command (use "." for current directory)'),
     timeout: z
       .number()
-      .describe('Timeout in milliseconds before the command is killed')
-      .default(10000),
+      .describe('Timeout in milliseconds before the command is killed (recommended: 10000)'),
   }),
   execute: async ({ command, cwd, timeout }) => {
     try {

@@ -12,21 +12,17 @@ export const globTool = tool({
     ),
     cwd: z
       .string()
-      .describe('The directory to search in. Default is the current directory.')
-      .default('.'),
+      .describe('The directory to search in (use "." for current directory)'),
     excludePatterns: z
       .array(z.string())
-      .describe('Glob patterns to exclude from results')
-      .optional(),
+      .describe('Glob patterns to exclude from results (use empty array [] if not needed)'),
     includeHidden: z
       .boolean()
-      .describe('Whether to include hidden files (starting with .)')
-      .default(false),
+      .describe('Whether to include hidden files starting with .'),
     onlyFiles: z
       .boolean()
-      .describe('Whether to only include files (not directories)')
-      .default(true),
-    maxResults: z.number().describe('Maximum number of results to return').default(100),
+      .describe('Whether to only include files (not directories)'),
+    maxResults: z.number().describe('Maximum number of results to return'),
   }),
   execute: async ({
     patterns,

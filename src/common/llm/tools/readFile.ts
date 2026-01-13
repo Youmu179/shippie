@@ -8,8 +8,8 @@ export const readFileTool = tool({
     'Read the current state of a file or part of a file. You should use this tool to gather specific context. You should use this in conjunction with the read_diff tool to get the full picture of the changes. You should read several lines before and after the changes. You may need to go back and read more lines.',
   parameters: z.object({
     path: z.string().describe('The absolute path to the file to read'),
-    startLine: z.number().optional().describe('The line number to start reading from.'),
-    endLine: z.number().optional().describe('The line number to end reading at.'),
+    startLine: z.number().describe('The line number to start reading from (0-based, use 0 for start of file)'),
+    endLine: z.number().describe('The line number to end reading at (estimate the end line, typically start + 200)'),
   }),
   execute: async ({ path, startLine, endLine }) => {
     try {
@@ -18,8 +18,8 @@ export const readFileTool = tool({
 
       const defaultLinesToRead = 200
 
-      const startIndex = startLine ? startLine - 1 : 0
-      const endIndex = endLine ? endLine - 1 : startIndex + defaultLinesToRead
+      const startIndex = startLine ?? 0
+      const endIndex = endLine ?? startIndex + defaultLinesToRead
 
       const selectedLines = lines.slice(startIndex, endIndex + 1)
       const content = selectedLines.join('\n')

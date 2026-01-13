@@ -1,28 +1,20 @@
 import { tool } from 'ai'
 import { z } from 'zod'
 
-const DEFAULT_TIMEOUT = 10000 // 10 seconds
-
 export const fetchTool = tool({
   description:
     'Make HTTP requests to external APIs and websites. Returns the response body as text.',
   parameters: z.object({
-    url: z.string().url().describe('The URL to fetch data from'),
+    url: z.string().describe('The URL to fetch data from (must start with http:// or https://)'),
     method: z
       .enum(['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD'])
-      .default('GET')
-      .describe('HTTP method to use'),
-    headers: z
-      .record(z.string())
-      .optional()
-      .describe('HTTP headers to include in the request'),
-    body: z.string().optional().describe('Request body (for POST, PUT, PATCH)'),
+      .describe('HTTP method to use (GET, POST, PUT, DELETE, PATCH, or HEAD)'),
+    body: z.string().describe('Request body for POST/PUT/PATCH requests (use empty string "" if not needed)'),
     timeout: z
       .number()
-      .default(DEFAULT_TIMEOUT)
-      .describe('Request timeout in milliseconds'),
+      .describe('Request timeout in milliseconds (recommended: 10000 for 10 seconds)'),
   }),
-  execute: async ({ url, method, headers, body, timeout }) => {
+  execute: async ({ url, method, body, timeout }) => {
     try {
       // Check for internal network requests
       const parsedUrl = new URL(url)
@@ -43,7 +35,6 @@ export const fetchTool = tool({
 
       const options: RequestInit = {
         method,
-        headers,
         signal: controller.signal,
       }
 

@@ -23,9 +23,8 @@ export const createSuggestChangesTool = (platformProvider: PlatformProvider) =>
         ),
       startLine: z
         .number()
-        .optional()
-        .describe('The line number to start the comment at.'),
-      endLine: z.number().optional().describe('The line number to end the comment at.'),
+        .describe('The line number to start the comment at (required for file-level comments).'),
+      endLine: z.number().describe('The line number to end the comment at (use same as startLine for single line).'),
     }),
     execute: async ({ filePath, comment, startLine, endLine }): Promise<string> => {
       const commentBody = `### Suggestion for \`${filePath}\`\n\n${comment}`

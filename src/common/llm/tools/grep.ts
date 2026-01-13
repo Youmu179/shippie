@@ -11,17 +11,14 @@ export const grepTool = tool({
     pattern: z.string().describe('The pattern to search for (supports JavaScript regex)'),
     path: z
       .string()
-      .describe('Directory or file path to search in. Default is the current directory.')
-      .default('.'),
+      .describe('Directory or file path to search in (use "." for current directory)'),
     glob: z
       .string()
-      .describe('Glob pattern for filtering files (e.g., "**/*.ts" for TypeScript files)')
-      .default('**/*.*'),
+      .describe('Glob pattern for filtering files (e.g., "**/*.ts" for TypeScript files, or "**/*.*" for all files)'),
     ignoreCase: z
       .boolean()
-      .describe('Whether to ignore case when matching')
-      .default(false),
-    maxResults: z.number().describe('Maximum number of results to return').default(30),
+      .describe('Whether to ignore case when matching (true or false)'),
+    maxResults: z.number().describe('Maximum number of results to return (recommended: 30)'),
   }),
   execute: async ({
     pattern,

@@ -7,15 +7,13 @@ export const lsTool = tool({
   description:
     'List files and directories at a specified path. Helpful for exploring the repository structure.',
   parameters: z.object({
-    path: z.string().describe('The absolute path to list contents from.').default('.'),
+    path: z.string().describe('The absolute path to list contents from (use "." for current directory)'),
     recursive: z
       .boolean()
-      .describe('Whether to list contents recursively')
-      .default(false),
+      .describe('Whether to list contents recursively (true or false)'),
     includeHidden: z
       .boolean()
-      .describe('Whether to include hidden files (starting with .)')
-      .default(false),
+      .describe('Whether to include hidden files starting with . (true or false)'),
   }),
   execute: async ({ path: dirPath, recursive, includeHidden }) => {
     try {
