@@ -7,7 +7,9 @@ export const globTool = tool({
   description:
     'Find files matching glob patterns. Useful for locating files with specific extensions or naming patterns.',
   parameters: z.object({
-    patterns: z.array(z.string()).describe('One or more glob patterns to match files'),
+    patterns: z.array(z.string()).describe(
+      'Array of glob patterns to match files. Examples: ["*.ts", "**/*.js"] or ["."] for all files'
+    ),
     cwd: z
       .string()
       .describe('The directory to search in. Default is the current directory.')
